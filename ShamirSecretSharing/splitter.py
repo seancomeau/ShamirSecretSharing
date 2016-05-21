@@ -5,6 +5,8 @@ import argparse
 
 from split_secret import *
 
+if sys.version_info > (3,):
+    long = int
 
 def main():
     parser = argparse.ArgumentParser(description="Secret Splitter")

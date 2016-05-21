@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 
-from MInt import *
+import sys
+
+from .MInt import MInt
+
+
+if sys.version_info > (3,):
+    long = int
+
 
 def reconstruct_secret(shares, num_shares, threshold, prime):
     """Reconstructs the secret using the computationally efficient approach

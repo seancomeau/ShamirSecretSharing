@@ -33,6 +33,11 @@ class MInt(object):
         assert self.p == other.p
         return self * other.inverse()
 
+    def __truediv__(self, other):
+        assert isinstance(other, MInt)
+        assert self.p == other.p
+        return self * other.inverse()
+
     def __pow__(self, other):
         assert isinstance(other, int)
         result = MInt(1, self.p)

@@ -1,0 +1,4 @@
+language: python
+script:
+  - cd tests
+  - ./run_tests.py

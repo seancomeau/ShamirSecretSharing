@@ -3,7 +3,7 @@
 import sys
 import argparse
 
-from split_secret import *
+from core import *
 
 if sys.version_info > (3,):
     long = int

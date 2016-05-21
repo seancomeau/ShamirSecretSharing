@@ -7,9 +7,8 @@ import unittest
 
 sys.path.insert(0, os.path.abspath('..'))
 
-from ShamirSecretSharing.MInt import MInt
-from ShamirSecretSharing.split_secret import split_secret
-from ShamirSecretSharing.reconstruct_secret import reconstruct_secret
+from ShamirSecretSharing.core import *
+
 
 class TestMInt(unittest.TestCase):
 

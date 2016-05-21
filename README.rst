@@ -1,7 +1,8 @@
 ShamirSecretSharing
 ===================
 
-[![Build Status](https://travis-ci.org/mohamed/ShamirSecretSharing.svg?branch=master)](https://travis-ci.org/mohamed/ShamirSecretSharing)
+.. image:: https://travis-ci.org/mohamed/ShamirSecretSharing.svg?branch=master
+    :target: https://travis-ci.org/mohamed/ShamirSecretSharing
 
 This is a minimalist and yet complete implementation of Shamir's Secret Sharing
 Algorithm as described in [JACM1979]_.

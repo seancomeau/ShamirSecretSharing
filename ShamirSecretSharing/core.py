@@ -104,11 +104,11 @@ def split_secret(secret, num_shares, threshold, bits_per_share, prime):
     # Get random (k-1) coefficients that define a k-th degree polynomial
     rng = random.SystemRandom(int(time.time()))
     for i in range(threshold - 1):
-        coefficients.extend([MInt(rng.getrandbits(bits_per_share), prime)])
+        coefficients.extend([MInt(rng.randint(1, 2**bits_per_share-1), prime)])
 
     # Get the x coordinates of the shares with the specified # of bits
     for i in range(num_shares):
-        shares_xs.extend([rng.randint(1, 2**bits_per_share - 1)])
+        shares_xs.extend([rng.randint(1, 2**bits_per_share-1)])
 
     # Evaluate the polynomial for each x to produce the corresponding y
     for x in shares_xs:

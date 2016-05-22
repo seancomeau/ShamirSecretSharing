@@ -108,7 +108,7 @@ def split_secret(secret, num_shares, threshold, bits_per_share, prime):
 
     # Get the x coordinates of the shares with the specified # of bits
     for i in range(num_shares):
-        shares_xs.extend([rng.getrandbits(bits_per_share)])
+        shares_xs.extend([rng.randint(1, 2**bits_per_share - 1)])
 
     # Evaluate the polynomial for each x to produce the corresponding y
     for x in shares_xs:
@@ -120,7 +120,11 @@ def split_secret(secret, num_shares, threshold, bits_per_share, prime):
             degree += 1
         shares.append((xm, y))
 
+    # Check if the shares are OK
     assert len(shares) == num_shares
+    for s in shares:
+        assert s[0].n != secret and s[1].n != secret
+        assert s[0].p == prime and s[1].p == prime
     return shares
 
 

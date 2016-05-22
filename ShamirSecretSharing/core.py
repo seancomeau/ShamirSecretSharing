@@ -86,8 +86,8 @@ def split_secret(secret, num_shares, threshold, bits_per_share, prime):
                in which all the arithmetic is done
 
     Returns:
-        If successful, a list containing the shares of the split secret.
-        Otherwise, None.
+        If successful, a list of tuples (long, long) containing the shares
+        of the split secret. Otherwise, None.
     """
 
     if num_shares < 1 or threshold < 1 or threshold > num_shares:
@@ -118,13 +118,12 @@ def split_secret(secret, num_shares, threshold, bits_per_share, prime):
         for i in coefficients:
             y += i * pow(xm, degree)
             degree += 1
-        shares.append((xm, y))
+        shares.append((xm.n, y.n))
 
     # Check if the shares are OK
     assert len(shares) == num_shares
     for s in shares:
-        assert s[0].n != secret and s[1].n != secret
-        assert s[0].p == prime and s[1].p == prime
+        assert s[0] != secret and s[1] != secret
     return shares
 
 
@@ -132,7 +131,8 @@ def print_shares(shares):
     """Prints the shares given by ShamirSecretSharing.split
 
     Args:
-        shares: A list of tuples containing the shares in (x, y) form
+        shares: A list of tuples (long, long) containing the shares
+                in (x, y) form
     """
 
     assert isinstance(shares, list)
@@ -144,12 +144,12 @@ def print_shares(shares):
     for s in shares:
         sys.stdout.write("Share %s: \n" % (i))
         i += 1
-        sys.stdout.write("\t" + "Part 1: " + hex(s[0].n) + "\n")
-        sys.stdout.write("\t" + "Part 2: " + hex(s[1].n) + "\n")
+        sys.stdout.write("\t" + "Part 1: " + hex(s[0]) + "\n")
+        sys.stdout.write("\t" + "Part 2: " + hex(s[1]) + "\n")
     sys.stdout.write("="  * 80 + "\n")
 
 
-def reconstruct_secret(shares, num_shares, threshold, prime):
+def reconstruct_secret(shares, prime):
     """Reconstructs the secret using the computationally efficient approach
     explained in: https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing
 
@@ -159,27 +159,24 @@ def reconstruct_secret(shares, num_shares, threshold, prime):
                were computed
 
     Returns:
-        If successful, an MInt(n,p) where n is the original secret.
-        Otherwise, None
+        If given enough shares (i.e., >= threshold), the reconstructed secret.
     """
 
     assert isinstance(shares, list)
-    assert isinstance(num_shares, int)
-    assert isinstance(threshold, int)
     assert isinstance(prime, long)
 
-    if len(shares) < threshold or len(shares) > num_shares:
-        return None
+    for s in shares:
+        assert prime > s[0] and prime > s[1]
 
     secret = MInt(0, prime)
 
     for j in range(0, len(shares)):
-        x_j = shares[j][0]
-        y_j = shares[j][1]
+        x_j = MInt(shares[j][0], prime)
+        y_j = MInt(shares[j][1], prime)
         product = MInt(1, prime)
         for m in range(0, len(shares)):
-            x_m = shares[m][0]
+            x_m = MInt(shares[m][0], prime)
             if m != j:
                 product *= (x_m / (x_m - x_j))
         secret += (y_j * product)
-    return secret
+    return secret.n

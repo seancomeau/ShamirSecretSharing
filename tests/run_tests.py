@@ -52,37 +52,31 @@ class TestShamir(unittest.TestCase):
         self.assertEqual(len(shares), self.num_shares)
         
         for s in shares:
-            self.assertNotEqual(s[0].n, self.secret)
-            self.assertNotEqual(s[1].n, self.secret)
+            self.assertTrue(isinstance(s[0], long))
+            self.assertTrue(isinstance(s[1], long))
+            self.assertNotEqual(s[0], self.secret)
+            self.assertNotEqual(s[1], self.secret)
 
         print_shares(shares)
         points = shares[0:self.threshold]
-        new_secret = reconstruct_secret(points, self.num_shares,
-                                        self.threshold, self.prime)
-        self.assertIsNotNone(new_secret)
-        self.assertEqual(new_secret.n, self.secret)
+        new_secret = reconstruct_secret(points, self.prime)
+        self.assertEqual(new_secret, self.secret)
 
         points = shares[0:self.threshold+1]
-        new_secret = reconstruct_secret(points, self.num_shares,
-                                        self.threshold, self.prime)
-        self.assertIsNotNone(new_secret)
-        self.assertEqual(new_secret.n, self.secret)
+        new_secret = reconstruct_secret(points, self.prime)
+        self.assertEqual(new_secret, self.secret)
 
         points = shares[0:self.num_shares]
-        new_secret = reconstruct_secret(points, self.num_shares,
-                                        self.threshold, self.prime)
-        self.assertIsNotNone(new_secret)
-        self.assertEqual(new_secret.n, self.secret)
+        new_secret = reconstruct_secret(points, self.prime)
+        self.assertEqual(new_secret, self.secret)
 
         points = shares[0:self.threshold-1]
-        new_secret = reconstruct_secret(points, self.num_shares,
-                                        self.threshold, self.prime)
-        self.assertIsNone(new_secret)
+        new_secret = reconstruct_secret(points, self.prime)
+        self.assertNotEqual(new_secret, self.secret)
 
         points = shares[0:self.threshold-2]
-        new_secret = reconstruct_secret(points, self.num_shares,
-                                        self.threshold, self.prime)
-        self.assertIsNone(new_secret)
+        new_secret = reconstruct_secret(points, self.prime)
+        self.assertNotEqual(new_secret, self.secret)
 
     
 if __name__ == "__main__":

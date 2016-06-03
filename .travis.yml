@@ -5,6 +5,8 @@ compiler:
 python:
   - "2.7"
   - "3.5"
+before_install:
+  - sudo apt-get install -y libgmp-dev
 script:
   - cd c && ./build.sh
   - cd python/tests && ./run_tests.py

@@ -1,6 +1,6 @@
 language: c
 compiler:
-  - gcc-5
+  - clang
 python:
   - "3.5"
 before_install:

@@ -22,9 +22,13 @@ add_library(shamir STATIC src/shamir.c)
 
 add_executable(test1 tests/test1.c)
 target_link_libraries(test1 shamir gmp)
+add_executable(test2 tests/test2.c)
+target_link_libraries(test2 shamir gmp)
 
 add_test(NAME test_test1 COMMAND test1)
 set_tests_properties(test_test1 PROPERTIES DEPENDS test1)
+add_test(NAME test_test2 COMMAND test2)
+set_tests_properties(test_test2 PROPERTIES DEPENDS test2)
 
 install(FILES src/shamir.h DESTINATION include)
 install(TARGETS shamir DESTINATION lib)

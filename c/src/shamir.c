@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <time.h>
 #include <errno.h>
 #include <assert.h>
 
@@ -33,7 +34,9 @@ int split_secret(const mpz_t secret,
         return ENOMEM;
     }
 
+    srand(time(NULL));
     gmp_randinit_default(rng_state);
+    gmp_randseed_ui(rng_state, rand());
     prime_size = mpz_sizeinbase(prime, 2);
  
     /* Initialize coefficients and shares_xs */   

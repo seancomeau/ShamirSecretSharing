@@ -14,7 +14,8 @@ script:
   - cmake ..
   - cmake --build . --target all
   - cmake --build . --target test
-  - cd -
+  - ./test1
+  - cd ../..
   - cd python/tests
   - ./run_tests.py
   - cd -

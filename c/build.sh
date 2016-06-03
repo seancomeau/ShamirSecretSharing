@@ -7,4 +7,4 @@ mkdir build
 cd build
 cmake ..
 cmake --build . --target all
-ctest -T Test -VV
+ctest -T Test -T memcheck

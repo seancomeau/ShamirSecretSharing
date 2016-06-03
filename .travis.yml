@@ -1,9 +1,7 @@
-language: c, python
+language: c
 compiler:
-  - clang
-  - gcc
+  - gcc-5
 python:
-  - "2.7"
   - "3.5"
 before_install:
   - sudo apt-get install -y libgmp-dev valgrind

@@ -8,5 +8,13 @@ python:
 before_install:
   - sudo apt-get install -y libgmp-dev valgrind
 script:
-  - cd c && ./build.sh
-  - cd python/tests && ./run_tests.py
+  - cd c
+  - mkdir build
+  - cd build
+  - cmake ..
+  - cmake --build . --target all
+  - cmake --build . --target test
+  - cd -
+  - cd python/tests
+  - ./run_tests.py
+  - cd -

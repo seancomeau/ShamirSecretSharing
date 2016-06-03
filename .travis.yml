@@ -1,9 +1,12 @@
-language: python
+language: c, python
+compiler:
+  - clang
+  - gcc
 python:
   - "2.7"
   - "3.5"
 install:
-  - python setup.py install
+  - cd python && python setup.py install
 script:
-  - cd tests
-  - ./run_tests.py
+  - cd c && ./build.sh
+  - cd python/tests && ./run_tests.py

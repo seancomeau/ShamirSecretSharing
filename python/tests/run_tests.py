@@ -120,6 +120,7 @@ class TestShamir(unittest.TestCase):
         points = shares[0:threshold-2]
         new_secret = reconstruct_secret(points, prime)
         self.assertNotEqual(new_secret, secret)
+
     
 if __name__ == "__main__":
     unittest.main()

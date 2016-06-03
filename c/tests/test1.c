@@ -22,7 +22,8 @@ int main()
     assert(retval == EXIT_SUCCESS);
     retval = reconstruct_secret(3, (const mpz_t *)xs, (const mpz_t *)ys,
                                 prime, reconstructed);
-    assert(retval == EXIT_SUCCESS);
+    printf("retval = %d\n", retval);
+    assert(mpz_cmp(reconstructed, secret) == 0);
     for (i = 0; i < 5; i++) {
         gmp_printf("Share %d: part 1 = %Zd - part 2 = %Zd\n", i, xs[i], ys[i]);
         mpz_clear(xs[i]);

@@ -18,6 +18,7 @@ int split_secret(const mpz_t secret,
 {
     unsigned int i = 0, j = 0;
     size_t prime_size = 0;
+    int retval = SUCCESS;
     mpz_t * coefficients = NULL;
     mpz_t y, tmp, degree;
     gmp_randstate_t rng_state;
@@ -51,8 +52,6 @@ int split_secret(const mpz_t secret,
         mpz_urandomb(shares_xs[i], rng_state, prime_size - 1);
         mpz_add_ui(shares_xs[i], shares_xs[i], 1);
     }
-    
-    gmp_randclear(rng_state);
 
     mpz_init(tmp);
     for (i = 0; i < num_shares; i++) {
@@ -68,9 +67,23 @@ int split_secret(const mpz_t secret,
         mpz_mod(y, y, prime);
         mpz_set(shares_ys[i], y);
         mpz_clear(y);
+        if (mpz_cmp(shares_xs[i], secret) == 0 ||
+            mpz_cmp(shares_ys[i], secret) == 0) {
+            retval = EINVAL;
+            break;
+        }
+
     }
     mpz_clear(tmp);
 
+    if (retval != SUCCESS) {
+        for (i = 0; i < num_shares; i++) {
+            mpz_init_set_ui(shares_xs[i], 0);
+            mpz_init_set_ui(shares_ys[i], 0);
+        }
+    }
+
+    gmp_randclear(rng_state);
     /* Clear data */
     for (i = 0; i < (threshold - 1); i++) {
         mpz_clear(coefficients[i]);
@@ -78,7 +91,7 @@ int split_secret(const mpz_t secret,
     free(coefficients);
     coefficients = NULL;
 
-    return SUCCESS;
+    return retval;
 }
 
 

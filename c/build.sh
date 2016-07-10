@@ -6,5 +6,5 @@ rm -rf build
 mkdir build
 cd build
 cmake ..
-scan-build cmake --build . --target all
+cmake --build . --target all
 ctest -T Test -T memcheck

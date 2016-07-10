@@ -31,7 +31,7 @@ int split_secret(const mpz_t secret,
     }
     
     coefficients = (mpz_t *) malloc((threshold - 1) * sizeof(mpz_t));
-    if (coefficients == NULL || errno != 0) {
+    if (coefficients == NULL) {
         return ENOMEM;
     }
 

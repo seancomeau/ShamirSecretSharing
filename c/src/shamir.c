@@ -111,7 +111,8 @@ int reconstruct_secret(const unsigned int num_shares,
     }
 
     for (j = 0; j < num_shares; j++) {
-        if (shares_xs[j] > prime || shares_ys[j] > prime) {
+        if (mpz_cmp(shares_xs[j], prime) >= 0 ||
+            mpz_cmp(shares_ys[j], prime) >= 0) {
             return EINVAL;
         }
     }
